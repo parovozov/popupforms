@@ -17,7 +17,7 @@ $cookystr = serialize($_COOKIE);
     }
     .container_popup{
         position: absolute;
-        display: flex;
+        display: none;
         flex-wrap:wrap;
         width: 80%;
         height: 80%;
@@ -30,6 +30,7 @@ $cookystr = serialize($_COOKIE);
         border-radius: 10px;
         overflow: hidden;
         transform: translate(-50%, -50%);
+        background-color: #fff;
     }
     .container_popup div{
         width: 50%;
@@ -57,7 +58,20 @@ $cookystr = serialize($_COOKIE);
         color: red;
         text-align: center;
     }
+    #openform{
+        width: 200px;
+        height: 30px;
+        padding: 0 5px 0 10px;
+        border: 1px solid #BBB;
+        outline: none;
+        position: absolute;
+
+        top:50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 </style>
+<input type="button" id="openform" value="открыть форму">
 <form action="request.php" name="formdata">
 <div class="container_popup" id="container_popup">
     <div>Имя</div><div><input type="text" name="user" id="username" placeholder="Введите ваше имя"></div>
@@ -65,6 +79,7 @@ $cookystr = serialize($_COOKIE);
     <div>Телефон</div><div><input type="tel" name="telefon" id="telefon" placeholder="Введите ваш телефон"  pattern="[0-9]+"></div>
    <input type="hidden" name="cookie" id="cookie" value="<?php echo $cookystr;?>">
     <input type="submit" value="Please press me" id="mysuperbutton" data-form-id="15" data-form-num2="23">
+    <input type="button" id="closeform" value="закрыть">
 </div>
 </form>
 
@@ -101,6 +116,16 @@ $cookystr = serialize($_COOKIE);
         }
     };
 
+
+    function closeform() {
+        container = document.getElementById("container_popup");
+        container.style.display='none';
+    }
+
+    function openform() {
+        container = document.getElementById("container_popup");
+        container.style.display='flex';
+    }
 
     function sendForm(btn){
         let obj  = btn.dataset;
@@ -158,7 +183,12 @@ $cookystr = serialize($_COOKIE);
             container.style.backgroundColor = "#777";
         }
         btn = document.getElementById("mysuperbutton");
+        btnclose = document.getElementById("closeform");
+        btnopen = document.getElementById("openform");
         btn.addEventListener("click", (e) => {e.stopPropagation(); e.preventDefault(); sendForm(btn)});
+        btnclose.addEventListener("click", () => {closeform()});
+        btnopen.addEventListener("click", () => {openform()});
+
     }
 
 
